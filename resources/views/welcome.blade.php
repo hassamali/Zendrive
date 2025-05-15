@@ -1,65 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MyZenDrive - Rent A Car</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <title>Zendrive Car Rental</title>
+    @vite('resources/css/app.css')
+    @vite('resources/js/app.js')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
 
-<body class="bg-gray-50 text-gray-900">
+<body class="bg-white text-gray-800 min-h-screen flex flex-col">
 
-<!-- Header -->
-<header class="bg-blue-600 text-white p-4 shadow-md">
-    <div class="container mx-auto flex justify-between items-center">
-        <h1 class="text-2xl font-bold">MyZenDrive</h1>
-        <nav>
-            <ul class="flex space-x-6">
-                <li><a href="#" class="hover:text-blue-200">Home</a></li>
-                <li><a href="#book" class="hover:text-blue-200">Book Now</a></li>
-                <li><a href="#contact" class="hover:text-blue-200">Contact</a></li>
-            </ul>
-        </nav>
-    </div>
-</header>
-
-<!-- Form Section -->
-<section class="bg-blue-50 min-h-screen flex items-center justify-center p-6">
-    <div class="bg-white rounded-lg shadow-lg max-w-4xl w-full grid grid-cols-1 md:grid-cols-2 overflow-hidden">
-        <div class="p-8 flex flex-col justify-center">
-            <h1 class="text-4xl font-bold mb-4 text-blue-600">Drive Your Dreams</h1>
-            <p class="text-gray-600 mb-6">Book your perfect ride in minutes with MyZenDrive.</p>
-            <form method="POST" action="{{ route('booking.submit') }}" class="space-y-4">
-                @csrf
-                <input type="text" name="name" placeholder="Your Name" required class="w-full border p-3 rounded focus:outline-none focus:ring-2 focus:ring-blue-400">
-                <input type="text" name="phone" placeholder="Phone Number" required class="w-full border p-3 rounded focus:outline-none focus:ring-2 focus:ring-blue-400">
-                <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded hover:bg-blue-500 transition">Book Now</button>
-            </form>
-        </div>
-        <div class="hidden md:block">
-            <img src="https://source.unsplash.com/600x800/?luxury-car" alt="Car Rental" class="h-full w-full object-cover">
+    {{-- Sticky Top Bar --}}
+    <div class="bg-blue-600 text-white text-sm py-1 px-4 sticky top-0 z-50 shadow">
+        <div class="max-w-5xl mx-auto text-center">
+            Limited time offer! Get 10% off on all bookings this week.
         </div>
     </div>
-</section>
 
-<!-- Booking Options -->
-<section class="container mx-auto py-12">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
-        <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
-            <h3 class="text-xl font-bold mb-4 text-blue-600">One-Time Drop</h3>
-            <p>Book a one-way trip easily and affordably.</p>
-        </div>
-        <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
-            <h3 class="text-xl font-bold mb-4 text-blue-600">Return Booking</h3>
-            <p>Plan your return journey with flexibility.</p>
-        </div>
-        <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
-            <h3 class="text-xl font-bold mb-4 text-blue-600">City to City Trips</h3>
-            <p>Travel between cities comfortably and safely.</p>
-        </div>
-        <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
-            <h3 class="text-xl font-bold mb-4 text-blue-600">Northern Area Booking</h3>
-            <p>Explore beautiful northern destinations with ease.</p>
-        </div>
+    {{-- Page Content --}}
+    <div class="flex-grow">
+
+        {{-- Header --}}
+        <header class="bg-white shadow-sm">
+            <div class="max-w-5xl mx-auto px-4 py-3 flex justify-between items-center">
+                <div class="text-xl font-bold text-gray-600">Zendrive</div>
+                <nav class="space-x-5 text-sm text-gray-700">
+                    <a href="#" class="hover:text-red-600 font-medium">Home</a>
+                    <a href="#" class="hover:text-red-600 font-medium">Cars</a>
+                    <a href="#" class="hover:text-red-600 font-medium">About</a>
+                    <a href="#" class="hover:text-red-600 font-medium">Contact</a>
+                </nav>
+                <div class="text-xs text-gray-500 hidden md:block">
+                    <span class="font-medium">Call Us:</span> +92 333 9002222
+                </div>
+            </div>
+        </header>
+
+        {{-- Booking Forms --}}
+        <section class="bg-blue-600 py-8 text-white">
+            <div class="max-w-5xl mx-auto px-4" x-data="{ selectedForm: 'intracity' }"
+                x-init="$nextTick(() => window.initFlatpickr($refs))"
+                x-effect="$nextTick(() => window.initFlatpickr($refs))">
+                <!-- Toggle buttons -->
+                <div class="flex space-x-6 mb-6">
+                    <label class="flex items-center space-x-2 cursor-pointer">
+                        <input type="radio" name="car_type" value="intracity" x-model="selectedForm"
+                            class="text-blue-600">
+                        <span>IntraCity</span>
+                    </label>
+                    <label class="flex items-center space-x-2 cursor-pointer">
+                        <input type="radio" name="car_type" value="intercity" x-model="selectedForm"
+                            class="text-blue-600">
+                        <span>InterCity</span>
+                    </label>
+                </div>
+
+                <!-- Conditional form include -->
+                <div x-show="selectedForm === 'intracity'" x-cloak>
+                    @include('components.forms.intracity')
+                </div>
+
+                <div x-show="selectedForm === 'intercity'" x-cloak>
+                    @include('components.forms.intercity')
+                </div>
+            </div>
+        </section>
+
+
+
     </div>
-</section>
+
+    {{-- Footer --}}
+    <footer class="bg-gray-800 text-white text-sm py-8">
+        <div class="max-w-5xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div>
+                <h3 class="font-semibold mb-2">Zendrive</h3>
+                <p class="text-gray-400">Reliable car rentals for city and outstation travel. Easy booking and
+                    competitive rates.</p>
+            </div>
+            <div>
+                <h3 class="font-semibold mb-2">Quick Links</h3>
+                <ul class="space-y-1">
+                    <li><a href="#" class="hover:text-red-500">Home</a></li>
+                    <li><a href="#" class="hover:text-red-500">Cars</a></li>
+                    <li><a href="#" class="hover:text-red-500">About</a></li>
+                    <li><a href="#" class="hover:text-red-500">Contact</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="font-semibold mb-2">Contact</h3>
+                <ul class="space-y-1 text-gray-400">
+                    <li>Phone: +92 300 0000000</li>
+                    <li>Email: support@zendrive.com</li>
+                    <li>123 RentACar Rd, Islamabad</li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="font-semibold mb-2">Follow Us</h3>
+                <div class="flex space-x-3 text-gray-400">
+                    <a href="#" class="hover:text-red-500">Facebook</a>
+                    <a href="#" class="hover:text-red-500">Instagram</a>
+                    <a href="#" class="hover:text-red-500">Twitter</a>
+                </div>
+            </div>
+        </div>
+        <div class="border-t border-gray-700 mt-6 pt-3 text-center text-gray-500 text-xs">
+            &copy; 2025 Zendrive. All rights reserved.
+        </div>
+    </footer>
+</body>
+
+</html>

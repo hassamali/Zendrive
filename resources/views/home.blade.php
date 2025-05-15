@@ -36,5 +36,57 @@
         </form>
     </section>
 
+    <section>
+        <div x-data="{ mainForm: 'car' }">
+            <div class="flex items-center space-x-4 mb-4">
+                <label class="flex items-center space-x-2">
+                    <input type="radio" name="mainForm" value="car" x-model="mainForm">
+                    <span>Car Rental</span>
+                </label>
+                <label class="flex items-center space-x-2">
+                    <input type="radio" name="mainForm" value="from" x-model="mainForm">
+                    <span>Airport Shuttle (From Airport)</span>
+                </label>
+                <label class="flex items-center space-x-2">
+                    <input type="radio" name="mainForm" value="to" x-model="mainForm">
+                    <span>Airport Shuttle (To Airport)</span>
+                </label>
+            </div>
+
+            <form>
+                <div x-show="mainForm === 'car'">
+                    @include('components.forms.car-rental')
+                </div>
+                <div x-show="mainForm === 'from'">
+                    @include('components.forms.airport-from')
+                </div>
+                <div x-show="mainForm === 'to'">
+                    @include('components.forms.airport-to')
+                </div>
+
+                <div class="text-right mt-4">
+                    <button class="bg-yellow-400 hover:bg-yellow-500 text-sm font-semibold px-6 py-2 rounded">Search</button>
+                </div>
+            </form>
+        </div>
+
+    </section>
+
+    <script>
+        function initFlatpickr() {
+            flatpickr("[x-ref$='Date']", {
+                dateFormat: "Y-m-d",
+                minDate: "today"
+            });
+            flatpickr("[x-ref$='Time']", {
+                enableTime: true,
+                noCalendar: true,
+                dateFormat: "H:i",
+                time_24hr: true
+            });
+        }
+    </script>
+
+
 </body>
 </html>
