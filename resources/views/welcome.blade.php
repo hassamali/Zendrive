@@ -27,7 +27,7 @@
             <div class="max-w-5xl mx-auto px-4 py-3 flex justify-between items-center">
                 <div class="text-xl font-bold text-gray-600">Zendrive</div>
                 <nav class="space-x-5 text-sm text-gray-700">
-                    <a href="#" class="hover:text-red-600 font-medium">Home</a>
+                    <a href="#" class="hover:text-red-600 font-medium">Dashboard</a>
                     <a href="#" class="hover:text-red-600 font-medium">Cars</a>
                     <a href="#" class="hover:text-red-600 font-medium">About</a>
                     <a href="#" class="hover:text-red-600 font-medium">Contact</a>
@@ -83,7 +83,7 @@
             <div>
                 <h3 class="font-semibold mb-2">Quick Links</h3>
                 <ul class="space-y-1">
-                    <li><a href="#" class="hover:text-red-500">Home</a></li>
+                    <li><a href="#" class="hover:text-red-500">Dashboard</a></li>
                     <li><a href="#" class="hover:text-red-500">Cars</a></li>
                     <li><a href="#" class="hover:text-red-500">About</a></li>
                     <li><a href="#" class="hover:text-red-500">Contact</a></li>
