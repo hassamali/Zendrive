@@ -14,10 +14,16 @@ class CitySeeder extends Seeder
      */
     public function run(): void
     {
-        $cities = ['Lahore', 'Islamabad', 'Rawalpindi', 'Peshawar'];
+        $cities = [
+            ['name' => 'Karachi'],
+            ['name' => 'Lahore'],
+            ['name' => 'Islamabad'],
+            ['name' => 'Faisalabad'],
+            ['name' => 'Multan'],
+        ];
 
         foreach ($cities as $city) {
-            City::create(['name' => $city]);
+            City::create($city);
         }
     }
 }

@@ -13,7 +13,7 @@ return new class extends Migration {
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
             $table->foreignId('car_id')->constrained();
-            $table->foreignId('fare_id')->constrained();
+            $table->decimal('fare', 10, 2);
             $table->foreignId('from_city_id')->constrained('cities');
             $table->foreignId('to_city_id')->constrained('cities');
             $table->dateTime('booking_time');
