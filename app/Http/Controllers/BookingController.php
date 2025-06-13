@@ -132,5 +132,12 @@ class BookingController extends Controller
         return view('booking-success', compact('booking'));
     }
 
+    public function adminDashboard()
+    {
+        $bookings = Booking::latest()->take(20)->get(); // Adjust as needed
+        return view('dashboard', compact('bookings'));
+    }
+
+
 
 }
