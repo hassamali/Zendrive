@@ -6,6 +6,7 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\BookingController as AdminBookingController;
 use App\Http\Controllers\Admin\CityController;
+use App\Http\Controllers\Admin\CarController;
 
 
 
@@ -44,6 +45,12 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
 
 Route::get('admin/cities/{id}/edit', [CityController::class, 'edit'])->name('admin.cities.edit');
 Route::put('admin/cities/{id}', [CityController::class, 'update'])->name('admin.cities.update');
+
+// Cars
+
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::resource('cars', CarController::class); // this creates admin.cars.index etc.
+});
 
 
 

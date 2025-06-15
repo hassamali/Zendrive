@@ -19,58 +19,55 @@
         </div>
     </div>
 
-    {{-- Page Content --}}
-    <div class="flex-grow">
-
-        {{-- Header --}}
-        <header class="bg-white shadow-sm">
-            <div class="max-w-5xl mx-auto px-4 py-3 flex justify-between items-center">
-                <div class="text-xl font-bold text-gray-600">Zendrive</div>
-                <nav class="space-x-5 text-sm text-gray-700">
-                    <a href="#" class="hover:text-red-600 font-medium">Dashboard</a>
-                    <a href="#" class="hover:text-red-600 font-medium">Cars</a>
-                    <a href="#" class="hover:text-red-600 font-medium">About</a>
-                    <a href="#" class="hover:text-red-600 font-medium">Contact</a>
-                </nav>
-                <div class="text-xs text-gray-500 hidden md:block">
-                    <span class="font-medium">Call Us:</span> +92 333 9002222
-                </div>
+    {{-- Header --}}
+    <header class="bg-white shadow-sm">
+        <div class="max-w-5xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between">
+            {{-- Logo --}}
+            <div class="text-xl font-bold text-gray-700">
+                <a href="{{ url('/') }}">Zendrive</a>
             </div>
-        </header>
 
-        {{-- Booking Forms --}}
-        <section class="bg-blue-600 py-8 text-white">
-            <div class="max-w-5xl mx-auto px-4" x-data="{ selectedForm: 'intracity' }"
-                x-init="$nextTick(() => window.initFlatpickr($refs))"
-                x-effect="$nextTick(() => window.initFlatpickr($refs))">
-                <!-- Toggle buttons -->
-                <div class="flex space-x-6 mb-6">
-                    <label class="flex items-center space-x-2 cursor-pointer">
-                        <input type="radio" name="car_type" value="intracity" x-model="selectedForm"
-                            class="text-blue-600">
-                        <span>IntraCity</span>
-                    </label>
-                    <label class="flex items-center space-x-2 cursor-pointer">
-                        <input type="radio" name="car_type" value="intercity" x-model="selectedForm"
-                            class="text-blue-600">
-                        <span>InterCity</span>
-                    </label>
-                </div>
+            {{-- Navigation --}}
+            <nav class="flex flex-wrap items-center space-x-4 text-sm text-gray-700 mt-2 sm:mt-0">
+                <a href="{{ url('/') }}" class="hover:text-red-600 font-medium">Home</a>
+                <a href="#" class="hover:text-red-600 font-medium">About</a>
+                <a href="#" class="hover:text-red-600 font-medium">Contact</a>
+            </nav>
 
-                <!-- Conditional form include -->
-                <div x-show="selectedForm === 'intracity'" x-cloak>
-                    @include('components.forms.intracity')
-                </div>
-
-                <div x-show="selectedForm === 'intercity'" x-cloak>
-                    @include('components.forms.intercity')
-                </div>
+            {{-- Contact Info --}}
+            <div class="text-xs text-gray-500 mt-2 sm:mt-0">
+                <span class="font-medium">Call Us:</span> +92 333 9002222
             </div>
-        </section>
+        </div>
+    </header>
 
+    {{-- Booking Forms --}}
+    <section class="bg-blue-600 py-8 text-white">
+        <div class="max-w-5xl mx-auto px-4" x-data="{ selectedForm: 'intracity' }"
+            x-init="$nextTick(() => window.initFlatpickr($refs))"
+            x-effect="$nextTick(() => window.initFlatpickr($refs))">
+            <!-- Toggle buttons -->
+            <div class="flex space-x-6 mb-6">
+                <label class="flex items-center space-x-2 cursor-pointer">
+                    <input type="radio" name="car_type" value="intracity" x-model="selectedForm" class="text-blue-600">
+                    <span>IntraCity</span>
+                </label>
+                <label class="flex items-center space-x-2 cursor-pointer">
+                    <input type="radio" name="car_type" value="intercity" x-model="selectedForm" class="text-blue-600">
+                    <span>InterCity</span>
+                </label>
+            </div>
 
+            <!-- Conditional form include -->
+            <div x-show="selectedForm === 'intracity'" x-cloak>
+                @include('components.forms.intracity')
+            </div>
 
-    </div>
+            <div x-show="selectedForm === 'intercity'" x-cloak>
+                @include('components.forms.intercity')
+            </div>
+        </div>
+    </section>
 
     {{-- Footer --}}
     <footer class="bg-gray-800 text-white text-sm py-8">
@@ -83,8 +80,6 @@
             <div>
                 <h3 class="font-semibold mb-2">Quick Links</h3>
                 <ul class="space-y-1">
-                    <li><a href="#" class="hover:text-red-500">Dashboard</a></li>
-                    <li><a href="#" class="hover:text-red-500">Cars</a></li>
                     <li><a href="#" class="hover:text-red-500">About</a></li>
                     <li><a href="#" class="hover:text-red-500">Contact</a></li>
                 </ul>

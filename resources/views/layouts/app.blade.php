@@ -33,10 +33,17 @@
         <div class="max-w-5xl mx-auto px-4 py-3 flex justify-between items-center">
             <div class="text-xl font-bold text-gray-600">Zendrive</div>
             <nav class="space-x-5 text-sm text-gray-700">
-                <a href="{{ route('dashboard') }}" class="hover:text-red-600 font-medium">Dashboard</a>
-                <a href="#" class="hover:text-red-600 font-medium">Cars</a>
-                <a href="#" class="hover:text-red-600 font-medium">About</a>
-                <a href="#" class="hover:text-red-600 font-medium">Contact</a>
+                @auth
+                    @if(auth()->user()->is_admin)
+                        <a href="{{ route('dashboard') }}" class="hover:text-red-600 font-medium">Dashboard</a>
+                        <a href="{{ route('admin.cities.index') }}" class="hover:text-red-600 font-medium">Cities</a>
+                        <a href="{{ route('admin.cars.index') }}" class="hover:text-red-600 font-medium">Cars</a>
+                        <form method="POST" action="{{ route('logout') }}" class="inline">
+                            @csrf
+                            <button type="submit" class="hover:text-red-600 font-medium">Logout</button>
+                        </form>
+                    @endif
+                @endauth
             </nav>
             <div class="text-xs text-gray-500 hidden md:block">
                 <span class="font-medium">Call Us:</span> +92 333 9002222
@@ -45,7 +52,7 @@
     </header>
 
     {{-- Page Content --}}
-    <main class="flex-grow max-w-3xl mx-auto p-4">
+    <main class="flex-grow max-w-5xl mx-auto p-4">
         {{ $slot }}
     </main>
 
@@ -62,7 +69,7 @@
                 <h3 class="font-semibold mb-2">Quick Links</h3>
                 <ul class="space-y-1">
                     <li><a href="{{ route('dashboard') }}" class="hover:text-red-500">Dashboard</a></li>
-                    <li><a href="#" class="hover:text-red-500">Cars</a></li>
+                    <li><a href="{{ route('admin.cars.index') }}" class="hover:text-red-500">Cars</a></li>
                     <li><a href="#" class="hover:text-red-500">About</a></li>
                     <li><a href="#" class="hover:text-red-500">Contact</a></li>
                 </ul>
