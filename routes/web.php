@@ -5,6 +5,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\BookingController as AdminBookingController;
+use App\Http\Controllers\Admin\CityController;
+
 
 
 /*
@@ -34,6 +36,16 @@ Route::get('/booking/success/{booking}', [BookingController::class, 'bookingSucc
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
+
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+    Route::resource('cities', CityController::class);
+    Route::patch('cities/{city}/toggle', [CityController::class, 'toggle'])->name('cities.toggle');
+});
+
+Route::get('admin/cities/{id}/edit', [CityController::class, 'edit'])->name('admin.cities.edit');
+Route::put('admin/cities/{id}', [CityController::class, 'update'])->name('admin.cities.update');
+
+
 
 // Admin booking status update
 Route::patch('/bookings/{booking}/status', [AdminBookingController::class, 'updateStatus'])
