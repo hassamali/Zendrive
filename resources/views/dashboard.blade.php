@@ -92,8 +92,8 @@
                                             <div class="relative">
                                                 <select name="status" onchange="this.form.submit()"
                                                     class="w-full border text-sm px-2 py-1 pr-8 rounded appearance-none
-                                                                            {{ $booking->status === 'pending' ? 'bg-red-100 text-red-700 border-red-300' : '' }}
-                                                                            {{ $booking->status === 'completed' ? 'bg-green-100 text-green-700 border-green-300' : '' }}"
+                                                                                {{ $booking->status === 'pending' ? 'bg-red-100 text-red-700 border-red-300' : '' }}
+                                                                                {{ $booking->status === 'completed' ? 'bg-green-100 text-green-700 border-green-300' : '' }}"
                                                     style="background-image: none; -webkit-appearance: none; -moz-appearance: none;">
                                                     <option value="pending" {{ $booking->status == 'pending' ? 'selected' : '' }}>Pending</option>
                                                     <option value="completed" {{ $booking->status == 'completed' ? 'selected' : '' }}>Completed</option>

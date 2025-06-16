@@ -3,14 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Car;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CarController extends Controller
 {
     public function index()
     {
-        $cars = Car::latest()->get();
+        $cars = Car::latest()->paginate(10);
         return view('admin.cars.index', compact('cars'));
     }
 
@@ -21,22 +22,21 @@ class CarController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string',
-            'image' => 'nullable|image',
-            'visible' => 'boolean',
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'is_visible' => 'nullable|boolean',
+            'image' => 'nullable|image|max:2048',
         ]);
 
-        $car = new Car($request->only(['name', 'visible']));
-
-        // Upload image if present
         if ($request->hasFile('image')) {
-            $car->image = $request->file('image')->store('cars', 'public');
+            $data['image'] = $request->file('image')->store('cars', 'public');
         }
 
-        $car->save();
+        $data['is_visible'] = $request->has('is_visible');
 
-        return redirect()->route('admin.cars.index')->with('success', 'Car created successfully.');
+        Car::create($data);
+
+        return redirect()->route('admin.cars.index')->with('success', 'Car added successfully.');
     }
 
     public function edit(Car $car)
@@ -46,26 +46,44 @@ class CarController extends Controller
 
     public function update(Request $request, Car $car)
     {
-        $request->validate([
-            'name' => 'required|string',
-            'image' => 'nullable|image',
-            'visible' => 'boolean',
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'is_visible' => 'nullable|boolean',
+            'image' => 'nullable|image|max:2048',
         ]);
 
-        $car->fill($request->only(['name', 'visible']));
-
         if ($request->hasFile('image')) {
-            $car->image = $request->file('image')->store('cars', 'public');
+            // Delete old image
+            if ($car->image) {
+                Storage::disk('public')->delete($car->image);
+            }
+
+            $data['image'] = $request->file('image')->store('cars', 'public');
         }
 
-        $car->save();
+        $data['is_visible'] = $request->has('is_visible');
+
+        $car->update($data);
 
         return redirect()->route('admin.cars.index')->with('success', 'Car updated successfully.');
     }
 
     public function destroy(Car $car)
     {
+        if ($car->image) {
+            Storage::disk('public')->delete($car->image);
+        }
+
         $car->delete();
-        return back()->with('success', 'Car deleted.');
+
+        return redirect()->route('admin.cars.index')->with('success', 'Car deleted successfully.');
+    }
+
+    public function toggleVisibility(Car $car)
+    {
+        $car->is_visible = !$car->is_visible;
+        $car->save();
+
+        return redirect()->route('admin.cars.index')->with('success', 'Car visibility updated.');
     }
 }
